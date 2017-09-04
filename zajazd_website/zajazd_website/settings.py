@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mainsite',
-    'gallery'
+    'gallery',
+    'reservation',
+    'client'
 
 ]
 
