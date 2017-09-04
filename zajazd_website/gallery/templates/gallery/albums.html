@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ - Galeria
+{% endblock %}
+
+{% block content %}
+
+<div class="container content-section">
+    <span class="zajazd-icon logo-white large"></span>
+    <h3>Galeria</h3>
+    <hr>
+    <br><br><br>
+    {% for album in albums %}
+
+    <div class="col-lg-4 gallery">
+        <a href="{% url 'gallery:photos' album.id %}" title="{{ album.title }}">
+            <img src="{{ album.cover.thumbnail.url }}" class="img-thumbnail">
+        </a>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ - Galeria
+{% endblock %}
+
+{% block content %}
+
+<div class="container content-section">
+    <span class="zajazd-icon logo-white large"></span>
+    <h3>Galeria</h3>
+    <hr>
+    <a href="{% url 'gallery:photos' photo.album.id %}" class="btn btn-default" role="button">Album</a>
+    <br><br><br>
+    <img src="{{ photo.image.url }}" class="img-responsive center-block">
+</div>
+
+{% endblock %}
