@@ -5,6 +5,7 @@ from PIL import Image
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
 from django.utils.safestring import mark_safe
+from django.dispatch import receiver
 
 
 class Photo(models.Model):
@@ -100,3 +101,27 @@ class PhotoAlbum(models.Model):
 
     def __str__(self):
         return self.title
+
+
+@receiver(models.signals.post_delete, sender=Photo)
+def delete_images(instance, **kwargs):
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
+
+    if instance.thumbnail:
+        if os.path.isfile(instance.thumbnail.path):
+            os.remove(instance.thumbnail.path)
+
+
+@receiver(models.signals.pre_save, sender=Photo)
+def delete_changed_image(instance, **kwargs):
+    if Photo.objects.filter(id=instance.id).exists():
+        old_photo = Photo.objects.get(id=instance.id)
+        if instance.image != old_photo.image:
+            if os.path.isfile(old_photo.image.path):
+                os.remove(old_photo.image.path)
+
+            if os.path.isfile(old_photo.thumbnail.path):
+                os.remove(old_photo.thumbnail.path)
+            old_photo.thumbnail = None
