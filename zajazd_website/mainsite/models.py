@@ -14,7 +14,6 @@ class About(models.Model):
     class Meta:
         verbose_name = 'O Nas'
         verbose_name_plural = 'O nas'
-        ordering = ['on_site_order']
 
     def __str__(self):
         if self.paragraph_title:
