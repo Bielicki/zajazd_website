@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ - O nas
+{% endblock %}
+
+{% block content %}
+
+<div class="container content-section">
+    <span class="zajazd-icon logo-white large"></span>
+    <h3>O nas</h3>
+    <hr>
+
+    {% for about in abouts %}
+    {% if about.paragraph_title != NONE %}
+
+    <h2>{{ about.paragraph_title }}</h2>
+
+    {% endif %}
+
+    <p>{{ about.paragraph_content }}</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

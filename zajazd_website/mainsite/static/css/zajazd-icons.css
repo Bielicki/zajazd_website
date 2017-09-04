@@ -1,0 +1,35 @@
+.zajazd-icon {
+    position: relative;
+    top: -5px;
+    right: 10px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    float: left;
+    display: block; /* This is required */
+}
+.zajazd-icon.logo-white {
+    background: url("../zajazd-icons/logo_raw_white.png");
+    background-size: cover;
+}
+.zajazd-icon.logo-black {
+    background: url("../zajazd-icons/logo_raw_black.png");
+    background-size: cover;
+}
+.zajazd-icon.small {
+    width: 16px;
+    height: 16px;
+}
+.zajazd-icon.normal {
+    width: 32px;
+    height: 32px;
+}
+.zajazd-icon.medium {
+    width: 64px;
+    height: 64px;
+}
+.zajazd-icon.large {
+    width: 128px;
+    height: 128px;
+}

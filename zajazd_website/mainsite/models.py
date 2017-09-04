@@ -1,3 +1,17 @@
 from django.db import models
 
-# Create your models here.
+
+class About(models.Model):
+    paragraph_title = models.CharField(max_length=64,
+                                       blank=True,
+                                       null=True,
+                                       verbose_name='Tytuł akapitu')
+
+    paragraph_content = models.TextField(blank=False,
+                                         null=False,
+                                         verbose_name='Zawartośc akapitu')
+
+    def __str__(self):
+        if self.paragraph_title:
+            return self.paragraph_title
+        return self.paragraph_content[:32] + '...'
