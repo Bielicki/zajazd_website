@@ -86,21 +86,25 @@ class Photo(models.Model):
 
 
 class PhotoAlbum(models.Model):
-
-    title = models.CharField(max_length=64,)
+    title = models.CharField(max_length=64,
+                             verbose_name='Tytuł')
 
     cover = models.ForeignKey(Photo,
                               null=True,
                               blank=True,
-                              on_delete=models.SET_NULL)
+                              on_delete=models.SET_NULL,
+                              verbose_name='Okładka')
 
     description = models.TextField(null=True,
                                    blank=True,
                                    verbose_name='Opis')
 
-    added = models.DateTimeField(auto_now_add=True)
+    added = models.DateTimeField(auto_now_add=True,
+                                 verbose_name="Dodano")
 
     class Meta:
+        verbose_name = 'Album'
+        verbose_name_plural = 'Albumy'
         ordering = ["-added"]
 
     def __str__(self):
