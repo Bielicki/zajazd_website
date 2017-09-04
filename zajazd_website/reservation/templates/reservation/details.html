@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}
+ - Rezerwacja
+{% endblock %}
+
+{% block content %}
+<div class="container content-section">
+        <div class="col-lg-8 col-lg-offset-2">
+<p>
+    Rezerwacja nr. Z/{{ reservation.id }}/{{year}} na {{ reservation.client.first_name }} {{ reservation.client.last_name }}<br>
+    Nr. Telefonu: {{ reservation.client.phone }}   E-mail: {{ reservation.client.email }}<br>
+    OD : {{ reservation.date_from }} DO: {{ reservation.date_to }} <br>
+    {{reservation.room }}
+    Liczba gości : {{ reservation.guests_number }}
+    {% if reservation.breakfast %}
+    ze śniadaniem
+    {% else %}
+    bez śniadania
+    {% endif %}<br>
+    Dodatkowe informacje: {{ reservation.additional_info }}<br>
+    Łączna cena : {{ reservation.total_price }}<br>
+    Zaliczka: {{ reservation.advance }}
+    <br><br>
+    <a href="{% url 'reservation:PDF' %}" class="btn btn-default btn-lg">PDF</a>
+    <br><br>
+    <a href="{% url 'reservation:reservation' %}" class="btn btn-default btn-lg">Wróć do początku</a>
+</p>
+        </div>
+</div>
+{% endblock %}
