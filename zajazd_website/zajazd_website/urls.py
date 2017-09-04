@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^about/$', AboutUs.as_view(), name='about'),
     url(r'^contact/$', Contact.as_view(), name='contact'),
     url(r'^gallery/', include('gallery.urls')),
+    url(r'^reservation/', include('reservation.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
