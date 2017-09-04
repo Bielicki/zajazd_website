@@ -9,14 +9,16 @@ from django.dispatch import receiver
 
 
 class Photo(models.Model):
-
-    title = models.CharField(max_length=32)
+    title = models.CharField(max_length=32,
+                             verbose_name='Tytuł')
 
     image = models.ImageField(upload_to='gallery',
                               null=False,
-                              blank=False)
+                              blank=False,
+                              verbose_name='Zdjęcie')
 
-    added = models.DateTimeField(auto_now_add=True)
+    added = models.DateTimeField(auto_now_add=True,
+                                 verbose_name='Dodano')
 
     album = models.ForeignKey('PhotoAlbum',
                               blank=True,
@@ -28,6 +30,8 @@ class Photo(models.Model):
                                   upload_to='gallery_thumbnails')
 
     class Meta:
+        verbose_name = 'Zdjęcie'
+        verbose_name_plural = 'Zdjęcia'
         ordering = ["-added"]
 
     def __str__(self):
