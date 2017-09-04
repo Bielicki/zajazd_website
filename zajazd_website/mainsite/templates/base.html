@@ -24,7 +24,7 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous">
 
-    <!-- Font Awesome  -->
+    <!-- Fornt Awesome  -->
     <script src="https://use.fontawesome.com/627ef9b005.js"></script>
 
     <!-- Custom Fonts -->
@@ -70,7 +70,7 @@
                         <a href="{% url 'gallery:albums' %}">Galeria</a>
                     </li>
                     <li>
-                        <a href=# >Rezerwacja</a>
+                        <a href="{% url 'reservation:reservation' %}">Rezerwacja</a>
                     </li>
                 </ul>
             </div>
@@ -92,11 +92,26 @@
         <a href="https://www.facebook.com/profile.php?id=100000461692322"><i class="fa fa-facebook-square fa-3x"></i></a>
     </footer>
 
+    <!-- jQuery 3.2.1 -->
+    <script   src="https://code.jquery.com/jquery-3.2.1.min.js"
+              integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+              crossorigin="anonymous"></script>
+
+    <!-- jQuery UI 1.12.1 -->
+    <script   src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+              integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+              crossorigin="anonymous"></script>
+
     <!-- Bootstrap Core JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
+    <!-- Datepicker date range validation -->
+    <script src="{% static 'js/datepicker_valid.js' %}"></script>
+
+    <!-- Custom Datepicker CSS -->
+    <link rel="stylesheet" href="{% static 'css/zajazd-datepicker.min.css' %}">
 </body>
 
 </html>
