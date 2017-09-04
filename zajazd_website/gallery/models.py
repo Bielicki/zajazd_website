@@ -4,6 +4,7 @@ from io import BytesIO
 from PIL import Image
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
+from django.utils.safestring import mark_safe
 
 
 class Photo(models.Model):
@@ -72,6 +73,11 @@ class Photo(models.Model):
             thumbnail,
             save=False
         )
+
+
+    def admin_image(self):
+        return mark_safe(f'<img src="{self.thumbnail.url}"/>')
+    admin_image.short_description = 'Zdjęcie'
 
 
 class PhotoAlbum(models.Model):
