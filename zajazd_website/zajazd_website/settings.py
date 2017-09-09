@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mainsite',
-    'gallery',
-    'reservation',
-    'client'
+    'mainsite.apps.MainsiteConfig',
+    'gallery.apps.GalleryConfig',
+    'reservation.apps.ReservationConfig',
+    'client.apps.ClientConfig'
 
 ]
 
