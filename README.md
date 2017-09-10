@@ -3,6 +3,7 @@ Django powered website for hotel and restaurant with reservation system.
 
 ***
 TODO:
+- WRITE TESTS !!!
 - Block rooms from picking for specific date when picked for reservation to avoid errors when 2 or more clients make reservation for the same date
 - Use django-cleanup or similar third party app to handle old files more efficently
 - Make Website Views for logged user with easy content editing
