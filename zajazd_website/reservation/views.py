@@ -3,33 +3,39 @@ from django.views import View
 from .models import Reservation
 from .forms import reservation_form_list, ReservationFormStep1, ReservationCreationForm
 from client.forms import client_form_list
-from .validators import form_check
-
-
-class BaseReservationView(View):
-    pass
+from .forms_processing import ReservationFormProcessor
+from client.forms_processing import ClientFormProcessor
 
 
 class ReservationView(View):
+
     def get(self, request):
+        request.session.flush()
         return render(request, 'reservation/reservation_form.html', {'form': ReservationFormStep1()})
 
     def post(self, request):
-        for form in reservation_form_list + client_form_list:
-            if form_check(form, request.POST):
-                processed_form = form.process_form(request)
-                if processed_form is None:
-                    continue
-                return render(request, 'reservation/reservation_form.html', processed_form)
+        reservation_processor = ReservationFormProcessor(reservation_form_list, request)
+        client_processor = ClientFormProcessor(client_form_list, request)
 
-        if form_check(ReservationCreationForm, request.session):
-            processed_form = ReservationCreationForm.process_form(request)
-            return render(request, 'reservation/reservation_form.html', processed_form)
+        reservation_processor.form_check()
+        if reservation_processor.form:
+            form = reservation_processor.process_form()
+
+        client_processor.form_check()
+        if client_processor.form:
+            form = client_processor.process_form()
+
+        if form:
+            return render(request, 'reservation/reservation_form.html', {'form': form})
+        else:
+            form = ReservationCreationForm(request.session)
+            if form.is_valid():
+                reservation = form.save()
+                request.session['PDF'] = reservation.id
+                return render(request, 'reservation/reservation_form.html', {'reservation': reservation})
 
 
 class Pdf(View):
     def get(self, request):
         reservation = Reservation.objects.get(id=request.session['PDF'])
         return reservation.get_as_pdf()
-
-
