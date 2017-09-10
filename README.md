@@ -9,4 +9,10 @@ TODO:
 - Make Website Views for logged user with easy content editing
 - Add Catering app to check pricing for specific Catering services
 - Separate forms and views usage of request
+    - I made special class FormProcessor that processes forms(stores data in sessino etc.)
+    still need to :
+        - Add one more step to confirm all reservation data 
+        - consider using rest api and JS for this one
+
+
 - Create more all-around form processing code (or switch to form wizard)

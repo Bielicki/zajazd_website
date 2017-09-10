@@ -6,29 +6,16 @@ from client.forms import ClientCheckForm
 
 
 class BaseModelForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, date_from=None, date_to=None,  *args, **kwargs):
         super(BaseModelForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
 
-
-    @classmethod
-    def create_form_session(cls, request):
-        for field in cls._meta.fields:
-            if field == 'breakfast' and field not in request.POST:
-                request.session['breakfast'] = False
-            else:
-                request.session[field] = request.POST[field]
-
-    @classmethod
-    def process_form(cls, request):
-        if cls(request.POST).is_valid():
-            cls.create_form_session(request)
-            return {'form': cls.next_step()}
-        else:
-            return {'form': cls(request.POST)}
+        self.date_from = date_from
+        self.date_to = date_to
+        # self.max = max
 
 
 class BaseReservationForm(BaseModelForm):
@@ -64,10 +51,10 @@ class ReservationFormStep3(BaseReservationForm):
         model = Reservation
         fields = ['guests_number', 'breakfast', 'additional_info']
 
-#    def __init__(self, maximum=None, *args, **kwargs):
-#        super(ReservationFormStep3, self).__init__(*args, **kwargs)
-#        if maximum:
-#            self.fields['guests_number'].widget.attrs.update({'max': maximum})
+    def __init__(self, *args, **kwargs):
+        super(ReservationFormStep3, self).__init__(*args, **kwargs)
+        # if maximum:
+        #     self.fields['guests_number'].widget.attrs.update({'max': maximum})
 
 
 class ReservationFormStep2(BaseReservationForm):
@@ -77,22 +64,10 @@ class ReservationFormStep2(BaseReservationForm):
         model = Reservation
         fields = ['room']
 
-    def __init__(self, date_from=None, date_to=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(ReservationFormStep2, self).__init__(*args, **kwargs)
-        if date_from and date_to:
-            self.fields['room'].queryset = Room.objects.available_rooms(date_from=date_from, date_to=date_to)
-
-    @classmethod
-    def process_form(cls, request):
-        date_from = request.session['date_from']
-        date_to = request.session['date_to']
-
-        if cls(date_from, date_to, request.POST).is_valid():
-  #          maximum = Room.objects.get(id=request.POST['room']).capacity
-            cls.create_form_session(request)
-            return {'form': cls.next_step()}
-        else:
-            return {'form': cls(date_from, date_to, request.POST)}
+        if self.date_from and self.date_to:
+            self.fields['room'].queryset = Room.objects.available_rooms(date_from=self.date_from, date_to=self.date_to)
 
 
 class ReservationFormStep1(BaseReservationForm):
@@ -107,45 +82,11 @@ class ReservationFormStep1(BaseReservationForm):
         self.fields['date_from'].widget.attrs.update({'id': 'from'})
         self.fields['date_to'].widget.attrs.update({'id': 'to'})
 
-    @classmethod
-    def process_form(cls, request):
-        if cls(request.POST).is_valid():
-            cls.create_form_session(request)
-            date_from = request.session['date_from']
-            date_to = request.session['date_to']
-            return {'form': cls.next_step(date_to=date_to, date_from=date_from)}
-        else:
-            return {'form': cls(request.POST)}
-
 
 class ReservationCreationForm(forms.ModelForm):
     class Meta:
         model = Reservation
         fields = ['client', 'date_from', 'date_to', 'room', 'guests_number', 'breakfast', 'additional_info']
-
-    @classmethod
-    def check_data(cls, request):
-        for field in cls._meta.fields:
-            if field not in request.session:
-                return False
-        return True
-
-    @classmethod
-    def process_form(cls, request):
-        reservation = cls(request.session).save()
-        cls.session_clear(request)
-        print('Zakończone session_clear')
-        request.session['PDF'] = reservation.id
-        print('Dodano PDF do sesji')
-        return {'reservation': reservation}
-
-    @classmethod
-    def session_clear(cls, request):
-        for field in cls._meta.fields:
-            if field in request.session:
-                del request.session[field]
-                print(f'Usunięto {field}')
-
 
 reservation_form_list = [ReservationFormStep1,
                          ReservationFormStep2,
